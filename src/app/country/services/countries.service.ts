@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { Region, SmallCoutry } from '../interfaces/country.interface';
-import { Observable, of, tap } from 'rxjs';
+import { Country, Region, SmallCoutry } from '../interfaces/country.interface';
+import { Observable, map, of} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,7 @@ export class CountriesService {
 
   private baseUrl: string = 'https://restcountries.com/v3.1';
 
-  private _regions: Region[] = [Region.Africa, Region.America, Region.Asia, Region.Europa, Region.Oceania];
+  private _regions: Region[] = [Region.Africa, Region.Americas, Region.Asia, Region.Europe, Region.Oceania];
 
   constructor(
     private http: HttpClient,
@@ -28,9 +28,13 @@ export class CountriesService {
 
     const url: string = `${this.baseUrl}/region/${region}?fields=cca3,name,borders`;
 
-    return this.http.get<SmallCoutry[]>(url)
+    return this.http.get<Country[]>(url)
     .pipe(
-      tap(response => console.log({response}))
+      map(countries => countries.map(country => ({
+        name: country.name.common,
+        cca3: country.cca3,
+        borders: country.borders ?? []
+      })))
     );
 
   }

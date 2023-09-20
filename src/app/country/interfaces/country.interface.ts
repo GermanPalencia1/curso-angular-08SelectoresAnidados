@@ -1,9 +1,9 @@
 export enum Region {
-  Africa = 'África',
-  America = 'América',
+  Africa = 'Africa',
+  Americas = 'Americas',
   Asia = 'Asia',
-  Europa = 'Europa',
-  Oceania = 'Oceanía'
+  Europe = 'Europe',
+  Oceania = 'Oceania'
 }
 
 export interface SmallCoutry {
